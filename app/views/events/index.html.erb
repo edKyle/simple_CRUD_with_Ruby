@@ -1,5 +1,8 @@
 <h1>Events list</h1>
 
+<p style="color: green"><%= flash[:notice] %></p>
+<p style="color: red"><%= flash[:alert] %></p>
+
 <ul>
 	<% @events.each do |e| %>
 

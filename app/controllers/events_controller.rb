@@ -1,7 +1,9 @@
 class EventsController < ApplicationController
 
+	before_action :set_event, :only => [:show, :edit, :update, :destroy]
+
 	def index
-		@events = Event.all
+		@events = Event.page(params[:page]).per(10)
 	end
 
 	def new
@@ -11,35 +13,50 @@ class EventsController < ApplicationController
 	#post/ events/ create
 	def create
 		@event = Event.new(event_parms)
-		@event.save
-
-		redirect_to :action => :index #告訴瀏覽器 HTTP code: 303
+		if @event.save
+			flash[:notice] = "新增成功"
+			redirect_to :action => :index #告訴瀏覽器 HTTP code: 303
+		else
+			render :action => :new #new.html.erb
+		end
 	end
+
+
+
 
 	#show data detail
 	def show
-		@data = Event.find(params[:id])
+		@title = @event.name
 	end
     
     #get /events/edit/:id
 	def edit
-		@data = Event.find(params[:id])
 	end
 
 	#get /events/update/:id
 	def update
-		@data = Event.find(params[:id])
-		@data.update(event_parms)
-
-		redirect_to :action => :show, :id => @data
+		@event.update(event_parms)
+		if @event.update(event_parms)
+			flash[:notice] = "編輯成功"
+			redirect_to :action => :show, :id => @event
+		else
+			render :action => :edit
+		end
 	end
 
 	def destroy 
-		@data = Event.find(params[:id])
-		@data.destroy
-
+		@event.destroy
+		flash[:alert] = "刪除成功"
 		redirect_to :action => :index #告訴瀏覽器 HTTP code: 303
 	end
+
+	#為了簡潔而寫的before_action fuction
+	def set_event
+		@event = Event.find(params[:id])
+	end
+
+
+
 
 	private
 		def event_parms

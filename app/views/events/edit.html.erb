@@ -1,9 +1,6 @@
-<%= form_for @data, :url => { :controller => 'events', :action => 'update', :id => @data } do |f| %>
-    <%= f.label :name, "Name" %>
-    <%= f.text_field :name %>
-
-    <%= f.label :description, "Description" %>
-    <%= f.text_area :description %>
+<%= form_for @event, :url => { :controller => 'events', :action => 'update', :id => @event } do |f| %>
+   
+   <%= render :partial => "form", :locals => {:f => f} %>
 
     <%= f.submit "Update" %>
 <% end %>

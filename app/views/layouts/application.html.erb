@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Demo</title>
+    <title><%= @title || "Demo" %></title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -10,5 +10,8 @@
 
   <body>
     <%= yield %>
+    <p>
+    <%= paginate @events %>
+    </p>
   </body>
 </html>
